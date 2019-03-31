@@ -1,6 +1,7 @@
 package sr.unasat.asset_manager.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -29,24 +30,27 @@ public class Employee {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public Employee() {
-    }
+    @OneToMany(mappedBy = "createdByEmployee")
+    private List<Asset> createdAssetList;
 
-    public Employee(String firstName, String lastName, String mobile, String username, String password, Role role) {
+    @OneToMany(mappedBy = "updatedByEmployee")
+    private List<Asset> updatedAssetList;
+
+    public Employee(long employeeId, String firstName, String lastName, String mobile, String username, String password, Role role, List<Asset> createdAssetList, List<Asset> updatedAssetList) {
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobile = mobile;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.createdAssetList = createdAssetList;
+        this.updatedAssetList = updatedAssetList;
     }
 
-    public Employee(String firstName, String lastName, String mobile, Role role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mobile = mobile;
-        this.role = role;
+    public Employee() {
     }
+
 
     public long getEmployeeId() {
         return employeeId;

@@ -56,7 +56,8 @@
                 "macAddress": document.getElementById("macAddress").value,
                 "serialNumber": document.getElementById("serialNumber").value,
                 "estimatedLifespan": document.getElementById("estimatedLifespan").value,
-                "category": category
+                "category": category,
+                "createdByEmployee": JSON.parse(sessionStorage.getItem("credentials")),
             };
 
             let xhttp = new XMLHttpRequest();

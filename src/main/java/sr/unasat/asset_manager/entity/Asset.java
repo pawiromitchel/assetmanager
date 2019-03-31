@@ -30,16 +30,27 @@ public class Asset {
     @JoinColumn(name = "category_id")
     Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    Employee createdByEmployee;
+
+    @ManyToOne
+    @JoinColumn(name = "updated_by")
+    Employee updatedByEmployee;
+
     public Asset() {
     }
 
-    public Asset(String assetDescription, String macAddress, String serialNumber, String estimatedLifespan, Status status, Category category) {
+    public Asset(long assetId, String assetDescription, String macAddress, String serialNumber, String estimatedLifespan, Status status, Category category, Employee createdByEmployee, Employee updatedByEmployee) {
+        this.assetId = assetId;
         this.assetDescription = assetDescription;
         this.macAddress = macAddress;
         this.serialNumber = serialNumber;
         this.estimatedLifespan = estimatedLifespan;
         this.status = status;
         this.category = category;
+        this.createdByEmployee = createdByEmployee;
+        this.updatedByEmployee = updatedByEmployee;
     }
 
     public long getAssetId() {
@@ -96,5 +107,21 @@ public class Asset {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Employee getCreatedByEmployee() {
+        return createdByEmployee;
+    }
+
+    public void setCreatedByEmployee(Employee createdByEmployee) {
+        this.createdByEmployee = createdByEmployee;
+    }
+
+    public Employee getUpdatedByEmployee() {
+        return updatedByEmployee;
+    }
+
+    public void setUpdatedByEmployee(Employee updatedByEmployee) {
+        this.updatedByEmployee = updatedByEmployee;
     }
 }

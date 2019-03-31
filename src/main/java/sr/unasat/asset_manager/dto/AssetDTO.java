@@ -1,6 +1,7 @@
 package sr.unasat.asset_manager.dto;
 
 import sr.unasat.asset_manager.entity.Category;
+import sr.unasat.asset_manager.entity.Employee;
 import sr.unasat.asset_manager.entity.Status;
 
 public class AssetDTO {
@@ -11,11 +12,13 @@ public class AssetDTO {
     private String estimatedLifespan;
     private Status status;
     private Category category;
+    private Employee createdByEmployee;
+    private Employee updatedByEmployee;
 
     public AssetDTO() {
     }
 
-    public AssetDTO(long assetId, String assetDescription, String macAddress, String serialNumber, String estimatedLifespan, Status status, Category category) {
+    public AssetDTO(long assetId, String assetDescription, String macAddress, String serialNumber, String estimatedLifespan, Status status, Category category, Employee createdByEmployee, Employee updatedByEmployee) {
         this.assetId = assetId;
         this.assetDescription = assetDescription;
         this.macAddress = macAddress;
@@ -23,6 +26,24 @@ public class AssetDTO {
         this.estimatedLifespan = estimatedLifespan;
         this.status = status;
         this.category = category;
+        this.createdByEmployee = createdByEmployee;
+        this.updatedByEmployee = updatedByEmployee;
+    }
+
+    public Employee getCreatedByEmployee() {
+        return createdByEmployee;
+    }
+
+    public void setCreatedByEmployee(Employee createdByEmployee) {
+        this.createdByEmployee = createdByEmployee;
+    }
+
+    public Employee getUpdatedByEmployee() {
+        return updatedByEmployee;
+    }
+
+    public void setUpdatedByEmployee(Employee updatedByEmployee) {
+        this.updatedByEmployee = updatedByEmployee;
     }
 
     public long getAssetId() {
@@ -80,4 +101,6 @@ public class AssetDTO {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+
 }

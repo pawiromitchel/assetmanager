@@ -25,6 +25,7 @@ public class AssetDAO {
     }
 
     public Asset create(Asset asset){
+        System.out.println(asset);
         entityManager.getTransaction().begin();
         entityManager.persist(asset);
         entityManager.getTransaction().commit();

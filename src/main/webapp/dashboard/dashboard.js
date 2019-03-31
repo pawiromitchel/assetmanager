@@ -15,6 +15,8 @@ function getAssets(apiUrl) {
                                     <td>${item.estimatedLifespan}</td>
                                     <td>${item.status ? item.status.status : ''}</td>
                                     <td>${item.category ? item.category.name : ''}</td>
+                                    <td>${item.createdByEmployee ? item.createdByEmployee.username : ''}</td>
+                                    <td>${item.updatedByEmployee ? item.updatedByEmployee.username : ''}</td>
                                     <td>
                                         <button>
                                             <a href="./../asset-management/edit-asset.html?id=${item.assetId}">Edit</a>

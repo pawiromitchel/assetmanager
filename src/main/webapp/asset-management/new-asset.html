@@ -46,12 +46,17 @@
 
         // Adds a listener for the "submit" event.
         form.addEventListener('submit', function (e) {
+
+            let category = categories.find(category => {
+                return category.categoryId == document.getElementById("categories").value
+            });
+
             let asset = {
                 "assetDescription": document.getElementById("assetDescription").value,
                 "macAddress": document.getElementById("macAddress").value,
                 "serialNumber": document.getElementById("serialNumber").value,
                 "estimatedLifespan": document.getElementById("estimatedLifespan").value,
-                "category": categories[document.getElementById("categories").value]
+                "category": category
             };
 
             let xhttp = new XMLHttpRequest();

@@ -19,7 +19,7 @@ function getAssets(apiUrl) {
                                         <button>
                                             <a href="./../asset-management/edit-asset.html?id=${item.assetId}">Edit</a>
                                         </button>
-                                        <button>Delete</button>
+                                        <button onclick="deleteAsset('${apiUrl}', ${item.assetId})">Delete</button>
                                     </td>
                                 </tr>
                             `;
@@ -35,6 +35,21 @@ function getAssets(apiUrl) {
     xhttp.send();
 }
 
-function remove(item) {
+function deleteAsset(apiUrl, assetId) {
+    var dialogBox = confirm(`Do you really with to delete the selected asset?`);
+    if (dialogBox) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState > 3 && xhttp.status == 200) {
+                alert(`${assetId} succesfully deleted`);
+                getAssets(apiUrl);
+            }
+        };
+        xhttp.open("DELETE", `${apiUrl}/asset/${assetId}`, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send();
+    } else {
+        txt = "You pressed Cancel!";
+    }
 
 }

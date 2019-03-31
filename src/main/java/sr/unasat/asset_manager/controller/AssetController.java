@@ -52,8 +52,8 @@ public class AssetController {
     @Path("/{assetId}")
     @DELETE
     public Response delete(@PathParam("assetId") Long id) {
-        AssetDTO assetDTO = modelMapper.map(assetService.delete(id), AssetDTO.class);
-        return Response.ok(assetDTO).build();
+        assetService.delete(id);
+        return Response.ok(Response.Status.OK).build();
     }
 
     @Path("/create")

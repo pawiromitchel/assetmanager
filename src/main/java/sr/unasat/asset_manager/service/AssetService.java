@@ -19,7 +19,20 @@ public class AssetService {
         return assetDAO.findAll();
     }
 
+    public Asset findOne(long assetId){
+        return assetDAO.findOne(assetId);
+    }
+
     public  Asset create(Asset asset){
         return assetDAO.create(asset);
+    }
+
+    public  Asset update(Asset asset){
+        return assetDAO.update(asset);
+    }
+
+    public  Asset delete(long id){
+        Asset asset = findOne(id);
+        return assetDAO.delete(asset);
     }
 }

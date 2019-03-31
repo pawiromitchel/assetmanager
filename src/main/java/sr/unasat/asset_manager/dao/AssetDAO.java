@@ -26,12 +26,6 @@ public class AssetDAO {
 
     public Asset create(Asset asset){
         entityManager.getTransaction().begin();
-//        for (int i = 0; i < songList.size(); i++) {
-//            if (songList.get(i).getTitle().toLowerCase().trim().equals(song.getTitle().toLowerCase().trim())) {
-//                entityManager.getTransaction().rollback();
-//                throw new EntityExistsException();
-//            }
-//        }
         entityManager.persist(asset);
         entityManager.getTransaction().commit();
         return asset;
@@ -39,7 +33,7 @@ public class AssetDAO {
 
     public Asset findOne(long id){
         entityManager.getTransaction().begin();
-        String jpql = "select e from Asset e where e.asset_id = :id";
+        String jpql = "select e from Asset e where e.assetId = :id";
         TypedQuery<Asset> query = entityManager.createQuery(jpql, Asset.class);
         query.setParameter("id", id);
         Asset foundRecord = query.getSingleResult();
@@ -47,8 +41,11 @@ public class AssetDAO {
         return foundRecord;
     }
 
-    public Asset update(Asset Asset){
-        return Asset;
+    public Asset update(Asset asset){
+        entityManager.getTransaction().begin();
+        entityManager.merge(asset);
+        entityManager.getTransaction().commit();
+        return asset;
     }
 
     public Asset delete(Asset Asset){

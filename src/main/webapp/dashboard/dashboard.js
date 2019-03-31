@@ -11,8 +11,14 @@ function getAssets(apiUrl) {
                                 <tr>
                                     <td>${item.assetDescription}</td>
                                     <td>${item.macAddress}</td>
+                                    <td>${item.serialNumber}</td>
+                                    <td>${item.estimatedLifespan}</td>
+                                    <td>${item.status ? item.status.status : ''}</td>
+                                    <td>${item.category ? item.category.name : ''}</td>
                                     <td>
-                                        <button>Edit</button>
+                                        <button>
+                                            <a href="./../asset-management/edit-asset.html?id=${item.assetId}">Edit</a>
+                                        </button>
                                         <button>Delete</button>
                                     </td>
                                 </tr>
@@ -27,4 +33,8 @@ function getAssets(apiUrl) {
     xhttp.open("GET", `${apiUrl}/asset/list`, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.send();
+}
+
+function remove(item) {
+
 }

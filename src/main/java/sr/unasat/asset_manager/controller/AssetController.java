@@ -6,6 +6,7 @@ import sr.unasat.asset_manager.dto.AssetDTO;
 import sr.unasat.asset_manager.entity.Asset;
 import sr.unasat.asset_manager.service.AssetService;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,6 +33,28 @@ public class AssetController {
         return Response.ok(assetDTOS).build();
     }
 
+    @Path("/{assetId}")
+    @GET
+    public Response findOne(@PathParam("assetId") Long id) {
+        AssetDTO assetDTO = modelMapper.map(assetService.findOne(id), AssetDTO.class);
+        return Response.ok(assetDTO).build();
+    }
+
+    @Path("/{assetId}")
+    @PUT
+    public Response update(@PathParam("assetId") Long id, @Valid AssetDTO assetDTO) {
+        assetDTO.setAssetId(id);
+        Asset asset = modelMapper.map(assetDTO, Asset.class);
+        assetService.update(asset);
+        return Response.ok(Response.Status.OK).build();
+    }
+
+    @Path("/{assetId}")
+    @DELETE
+    public Response delete(@PathParam("assetId") Long id) {
+        AssetDTO assetDTO = modelMapper.map(assetService.delete(id), AssetDTO.class);
+        return Response.ok(assetDTO).build();
+    }
 
     @Path("/create")
     @POST

@@ -26,7 +26,7 @@ public class EmployeeDAO {
 
     public Employee findOne(long id){
         entityManager.getTransaction().begin();
-        String jpql = "select e from Employee e where e.employee_id = :id";
+        String jpql = "select e from Employee e where e.employeeId = :id";
         TypedQuery<Employee> query = entityManager.createQuery(jpql, Employee.class);
         query.setParameter("id", id);
         Employee foundRecord = query.getSingleResult();

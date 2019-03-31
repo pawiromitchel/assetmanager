@@ -7,15 +7,19 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 public class AssetService {
-    private AssetDAO eassetDAO;
-    private List<Asset> eassetList;
+    private AssetDAO assetDAO;
+    private List<Asset> assetList;
 
     public AssetService(EntityManager entityManager) {
-        eassetDAO = new AssetDAO(entityManager);
-        eassetList = findAll();
+        assetDAO = new AssetDAO(entityManager);
+        assetList = findAll();
     }
 
     public List<Asset> findAll(){
-        return eassetDAO.findAll();
+        return assetDAO.findAll();
+    }
+
+    public  Asset create(Asset asset){
+        return assetDAO.create(asset);
     }
 }

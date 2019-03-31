@@ -31,4 +31,17 @@ public class AssetController {
         }
         return Response.ok(assetDTOS).build();
     }
+
+
+    @Path("/create")
+    @POST
+    public Response create(AssetDTO assetDTO) {
+        try{
+            Asset asset = modelMapper.map(assetDTO, Asset.class);
+            assetService.create(asset);
+        } catch (Exception e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(Response.Status.OK).build();
+    }
 }

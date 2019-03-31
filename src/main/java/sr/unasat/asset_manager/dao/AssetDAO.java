@@ -24,6 +24,19 @@ public class AssetDAO {
         return list;
     }
 
+    public Asset create(Asset asset){
+        entityManager.getTransaction().begin();
+//        for (int i = 0; i < songList.size(); i++) {
+//            if (songList.get(i).getTitle().toLowerCase().trim().equals(song.getTitle().toLowerCase().trim())) {
+//                entityManager.getTransaction().rollback();
+//                throw new EntityExistsException();
+//            }
+//        }
+        entityManager.persist(asset);
+        entityManager.getTransaction().commit();
+        return asset;
+    }
+
     public Asset findOne(long id){
         entityManager.getTransaction().begin();
         String jpql = "select e from Asset e where e.asset_id = :id";

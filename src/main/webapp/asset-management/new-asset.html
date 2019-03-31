@@ -9,30 +9,89 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/materia/bootstrap.min.css">
     <title>Asset Manager - Home</title>
 
-
     <script src="../helpers/auth.js"></script>
     <script src="../helpers/constants.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="./new-asset.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form action="">
+                <h1>New Asset</h1>
+                <form method="POST" id="form">
+                    <input type="text" placeholder="Description" required id="assetDescription">
+                    <input type="text" placeholder="MAC Address" required id="macAddress">
+                    <input type="text" placeholder="Serial Number" required id="serialNumber">
+                    <input type="date" placeholder="Estimated Removal Date" required id="estimatedLifespan">
+                    <!-- <input type="number" placeholder="Status" required id="status"> -->
+                    <!-- <input type="number" placeholder="Category" required id="category"> -->
 
+                    <select name="" id="categories">
+                        <option disabled>Select the category</option>
+                    </select>
+
+                    <button type="submit">Create</button>
+                    <button type="reset">Reset</button>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-        init();
+        isLoggedIn();
+        getCategories(getAPIUrl());
 
-        function init() {
-            isLoggedIn();
-            getAssets(getAPIUrl());
+        var form = document.getElementById('form');
+        var categories;
+
+        // Adds a listener for the "submit" event.
+        form.addEventListener('submit', function (e) {
+            let asset = {
+                "assetDescription": document.getElementById("assetDescription").value,
+                "macAddress": document.getElementById("macAddress").value,
+                "serialNumber": document.getElementById("serialNumber").value,
+                "estimatedLifespan": document.getElementById("estimatedLifespan").value,
+                "category": categories[document.getElementById("categories").value]
+            };
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
+                    console.log(this.responseText);
+                }
+            };
+            xhttp.open("POST", `${getAPIUrl()}/asset/create`, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(asset));
+
+            e.preventDefault();
+        });
+
+        function getCategories(apiUrl) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
+                    if (this.responseText) {
+                        // handle response here
+                        categories = JSON.parse(this.responseText);
+                        categories.forEach(item => {
+                            const html =
+                            `
+                                <option value="${item.categoryId}">${item.name}</option>
+                            `;
+                            document.getElementById("categories").innerHTML += html;
+                        });
+                    } else {
+                        alert("Something went wrong retreiving the data");
+                    }
+                }
+            };
+            xhttp.open("GET", `${apiUrl}/category/list`, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send();
         }
+
     </script>
 </body>
 

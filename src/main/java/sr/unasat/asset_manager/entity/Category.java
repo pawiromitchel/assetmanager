@@ -41,11 +41,4 @@ public class Category {
         this.name = name;
     }
 
-    public List<Asset> getAssetList() {
-        return assetList;
-    }
-
-    public void setAssetList(List<Asset> assetList) {
-        this.assetList = assetList;
-    }
 }

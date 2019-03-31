@@ -18,7 +18,7 @@ function getAssets(apiUrl) {
                                 </tr>
                             `;
                     document.getElementById("assets").innerHTML += html;
-                })
+                });
             } else {
                 alert("Something went wrong retreiving the data");
             }

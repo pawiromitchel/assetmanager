@@ -1,6 +1,7 @@
 package sr.unasat.asset_manager.controller;
 
 import org.modelmapper.ModelMapper;
+import sr.unasat.asset_manager.builders.AssetBuilder;
 import sr.unasat.asset_manager.config.JPAConfiguration;
 import sr.unasat.asset_manager.dto.AssetDTO;
 import sr.unasat.asset_manager.entity.Asset;
@@ -61,7 +62,20 @@ public class AssetController {
     public Response create(AssetDTO assetDTO) {
         try{
             Asset asset = modelMapper.map(assetDTO, Asset.class);
-            assetService.create(asset);
+
+            // Builder Design Pattern
+            AssetBuilder assetBuilder = new AssetBuilder();
+            assetBuilder.setAssetId(asset.getAssetId());
+            assetBuilder.setAssetDescription(asset.getAssetDescription());
+            assetBuilder.setMacAddress(asset.getMacAddress());
+            assetBuilder.setSerialNumber(asset.getSerialNumber());
+            assetBuilder.setEstimatedLifespan(asset.getEstimatedLifespan());
+            assetBuilder.setCreatedByEmployee(asset.getCreatedByEmployee());
+            assetBuilder.setUpdatedByEmployee(asset.getUpdatedByEmployee());
+            assetBuilder.setStatus(asset.getStatus());
+            assetBuilder.setCategory(asset.getCategory());
+
+            assetService.create(assetBuilder.getResult());
         } catch (Exception e){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

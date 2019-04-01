@@ -16,13 +16,21 @@
 </head>
 
 <body>
-    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Asset Manager</a>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <h1>Assets</h1>
-                <button>
-                    <a href="./../asset-management/new-asset.html">New</a>
-                </button>
+                <a class="btn btn-success" href="./../asset-management/new-asset.html">Register new asset</a>
                 <hr>
                 <table class="table table-bordered" id="assetsTable">
                     <thead class="thead-dark">

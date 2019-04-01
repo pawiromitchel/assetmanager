@@ -18,10 +18,8 @@ function getAssets(apiUrl) {
                                     <td>${item.createdByEmployee ? item.createdByEmployee.username : ''}</td>
                                     <td>${item.updatedByEmployee ? item.updatedByEmployee.username : ''}</td>
                                     <td>
-                                        <button>
-                                            <a href="./../asset-management/edit-asset.html?id=${item.assetId}">Edit</a>
-                                        </button>
-                                        <button onclick="deleteAsset('${apiUrl}', ${item.assetId})">Delete</button>
+                                        <a class="btn btn-info" href="./../asset-management/edit-asset.html?id=${item.assetId}">Edit</a>
+                                        <button class="btn btn-danger" onclick="deleteAsset('${apiUrl}', ${item.assetId})">Delete</button>
                                     </td>
                                 </tr>
                             `;

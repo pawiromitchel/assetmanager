@@ -11,13 +11,24 @@
 </head>
 
 <body>
-    <h1>Asset Manager</h1>
-    <form id="form" method="post">
-        <legend>Please login with your credentials</legend>
-        <input type="text" placeholder="Username" id="username" required>
-        <input type="password" placeholder="Password" id="password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-6">
+                <form id="form" method="post">
+                    <h1>Asset Manager</h1>
+                    <fieldset>
+                        <legend>Please login with your credentials</legend>
+                        <input type="text" class="form-control" placeholder="Username" id="username" required>
+                        <input type="password" class="form-control" placeholder="Password" id="password" required>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         var form = document.getElementById('form');
@@ -25,15 +36,15 @@
         // Adds a listener for the "submit" event.
         form.addEventListener('submit', function (e) {
             let employee = {
-                "username" : document.getElementById("username").value,
-                "password" : document.getElementById("password").value
+                "username": document.getElementById("username").value,
+                "password": document.getElementById("password").value
             };
 
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
-                if (xhttp.readyState>3 && xhttp.status==200) {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
                     console.log(this.responseText);
-                    if(this.responseText){
+                    if (this.responseText) {
                         sessionStorage.setItem("credentials", this.responseText);
                         window.location = "dashboard/dashboard.html";
                     } else {

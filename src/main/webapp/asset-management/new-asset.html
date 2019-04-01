@@ -14,24 +14,41 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Asset Manager</a>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <h1>New Asset</h1>
                 <form method="POST" id="form">
-                    <input type="text" placeholder="Description" required id="assetDescription">
-                    <input type="text" placeholder="MAC Address" required id="macAddress">
-                    <input type="text" placeholder="Serial Number" required id="serialNumber">
-                    <input type="date" placeholder="Estimated Removal Date" required id="estimatedLifespan">
-                    <!-- <input type="number" placeholder="Status" required id="status"> -->
-                    <!-- <input type="number" placeholder="Category" required id="category"> -->
+                    <fieldset>
+                        <input type="text" class="form-control" placeholder="Description" required
+                            id="assetDescription">
+                        <input type="text" class="form-control" placeholder="MAC Address" required id="macAddress">
+                        <input type="text" class="form-control" placeholder="Serial Number" required id="serialNumber">
+                        <input type="date" class="form-control" placeholder="Estimated Removal Date" required
+                            id="estimatedLifespan">
+                        <!-- <input type="number" placeholder="Status" required id="status"> -->
+                        <!-- <input type="number" placeholder="Category" required id="category"> -->
 
-                    <select name="" id="categories">
-                        <option disabled>Select the category</option>
-                    </select>
+                        <select name="" id="categories" class="form-control">
+                            <option disabled>Select the category</option>
+                        </select>
 
-                    <button type="submit">Create</button>
-                    <button type="reset">Reset</button>
+                        <br>
+
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-info" type="reset">Reset</button>
+                    </fieldset>
+
                 </form>
             </div>
         </div>
@@ -82,7 +99,7 @@
                         categories = JSON.parse(this.responseText);
                         categories.forEach(item => {
                             const html =
-                            `
+                                `
                                 <option value="${item.categoryId}">${item.name}</option>
                             `;
                             document.getElementById("categories").innerHTML += html;

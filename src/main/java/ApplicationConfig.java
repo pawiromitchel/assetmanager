@@ -13,6 +13,3 @@ public class ApplicationConfig extends Application {
     }
 }
 
-
-//TODO
-//Select a from Artist a JOIN FETCH Album (al) JOIN FETCH Songs (s)

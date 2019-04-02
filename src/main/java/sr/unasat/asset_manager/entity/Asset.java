@@ -51,6 +51,7 @@ public class Asset {
         this.category = category;
         this.createdByEmployee = createdByEmployee;
         this.updatedByEmployee = updatedByEmployee;
+
     }
 
     public long getAssetId() {
@@ -123,5 +124,11 @@ public class Asset {
 
     public void setUpdatedByEmployee(Employee updatedByEmployee) {
         this.updatedByEmployee = updatedByEmployee;
+    }
+
+    public String printStatus() {
+        return "Asset{" +
+                "status=" + status.getStatus() +
+                '}';
     }
 }

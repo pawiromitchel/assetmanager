@@ -9,4 +9,3 @@ function isLoggedIn() {
     console.log("User is logged in");
     return true;
 }
-

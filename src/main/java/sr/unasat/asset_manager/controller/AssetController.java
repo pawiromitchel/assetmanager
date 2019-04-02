@@ -5,7 +5,10 @@ import sr.unasat.asset_manager.builders.AssetBuilder;
 import sr.unasat.asset_manager.config.JPAConfiguration;
 import sr.unasat.asset_manager.dto.AssetDTO;
 import sr.unasat.asset_manager.entity.Asset;
+import sr.unasat.asset_manager.entity.Status;
 import sr.unasat.asset_manager.service.AssetService;
+import sr.unasat.asset_manager.service.StatusService;
+import sr.unasat.asset_manager.states.AssetContext;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -19,6 +22,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class AssetController {
     private AssetService assetService = new AssetService(JPAConfiguration.getEntityManager());
+    private StatusService statusService = new StatusService(JPAConfiguration.getEntityManager());
     private ModelMapper modelMapper = new ModelMapper();
 
     @Path("/list")
@@ -53,7 +57,19 @@ public class AssetController {
     @Path("/{assetId}")
     @DELETE
     public Response delete(@PathParam("assetId") Long id) {
-        assetService.delete(id);
+        Asset asset = assetService.findOne(id);
+
+        AssetContext assetContext = new AssetContext();
+        assetContext.setStatus(asset);
+
+        if(assetContext.getState(asset).getStatus().equals("Registered")){
+            assetService.delete(id);
+            return Response.ok(Response.Status.OK).build();
+        } else if(assetContext.getState(asset).getStatus().equals("Written-Off")){
+            System.out.println("Not allowed to delete an written off asset");
+            return Response.ok(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
         return Response.ok(Response.Status.OK).build();
     }
 
@@ -62,6 +78,9 @@ public class AssetController {
     public Response create(AssetDTO assetDTO) {
         try{
             Asset asset = modelMapper.map(assetDTO, Asset.class);
+
+            // Set status as Registered
+            Status status = statusService.findOne(1);
 
             // Builder Design Pattern
             AssetBuilder assetBuilder = new AssetBuilder();
@@ -72,7 +91,7 @@ public class AssetController {
             assetBuilder.setEstimatedLifespan(asset.getEstimatedLifespan());
             assetBuilder.setCreatedByEmployee(asset.getCreatedByEmployee());
             assetBuilder.setUpdatedByEmployee(asset.getUpdatedByEmployee());
-            assetBuilder.setStatus(asset.getStatus());
+            assetBuilder.setStatus(status);
             assetBuilder.setCategory(asset.getCategory());
 
             assetService.create(assetBuilder.getResult());

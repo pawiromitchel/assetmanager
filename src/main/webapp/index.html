@@ -47,9 +47,9 @@
                     if (this.responseText) {
                         sessionStorage.setItem("credentials", this.responseText);
                         window.location = "dashboard/dashboard.html";
-                    } else {
-                        alert("Credentials incorrect, please try again");
                     }
+                } else if(xhttp.status === 403){
+                    alert("Credentials incorrect, please try again");
                 }
             };
             xhttp.open("POST", "api/employee/auth", true);

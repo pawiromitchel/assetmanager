@@ -41,8 +41,12 @@ function deleteAsset(apiUrl, assetId) {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState > 3 && xhttp.status == 200) {
-                alert(`${assetId} succesfully deleted`);
-                getAssets(apiUrl);
+                if (this.responseText == "NOT_ACCEPTABLE") {
+                    alert(`Not allowed to remove this asset`);
+                } else {
+                    alert(`${assetId} succesfully deleted`);
+                    // location.reload();
+                }
             }
         };
         xhttp.open("DELETE", `${apiUrl}/asset/${assetId}`, true);

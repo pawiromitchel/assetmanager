@@ -47,7 +47,7 @@ public class EmployeeController {
             authenticatedEmployee = modelMapper.map(authStrategy.auth(employee), EmployeeDTO.class);
         } catch (Exception e){
             JPAConfiguration.getEntityManager().getTransaction().rollback();
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.ok(authenticatedEmployee).build();
     }

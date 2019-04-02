@@ -41,6 +41,7 @@ function deleteAsset(apiUrl, assetId) {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState > 3 && xhttp.status == 200) {
+                console.log(this.responseText);
                 if (this.responseText == "NOT_ACCEPTABLE") {
                     alert(`Not allowed to remove this asset`);
                 } else {

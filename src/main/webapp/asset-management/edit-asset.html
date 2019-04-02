@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://bootswatch.com/4/materia/bootstrap.min.css">
+    <title>Asset Manager - Edit</title>
+
+    <script src="../helpers/auth.js"></script>
+    <script src="../helpers/constants.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Asset Manager</a>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../dashboard/dashboard.html">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Edit Asset</h1>
+                <form method="POST" id="form">
+                    <fieldset>
+                        <input type="text" class="form-control" placeholder="Description" required
+                            id="assetDescription">
+                        <input type="text" class="form-control" placeholder="MAC Address" required id="macAddress">
+                        <input type="text" class="form-control" placeholder="Serial Number" required id="serialNumber">
+                        <input type="date" class="form-control" placeholder="Estimated Removal Date" required
+                            id="estimatedLifespan">
+
+                        <select name="" id="categories" class="form-control">
+                            <option disabled>Select the category</option>
+                        </select>
+
+                        <br>
+
+                        <button class="btn btn-success" type="submit">Save</button>
+                        <button class="btn btn-info" type="reset">Reset</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        isLoggedIn();
+        getCategories(getAPIUrl());
+        var url = new URL(window.location.href);
+        var assetId = url.searchParams.get("id");
+        setTimeout(() => {
+            getAssetInfo(getAPIUrl(), assetId);
+        }, 1000);
+
+        var form = document.getElementById('form');
+        var categories;
+        var assetInfo;
+
+        // Adds a listener for the "submit" event.
+        form.addEventListener('submit', function (e) {
+            let category = categories.find(category => {
+                return category.categoryId == document.getElementById("categories").value
+            });
+
+            let asset = {
+                "assetDescription": document.getElementById("assetDescription").value,
+                "macAddress": document.getElementById("macAddress").value,
+                "serialNumber": document.getElementById("serialNumber").value,
+                "estimatedLifespan": document.getElementById("estimatedLifespan").value,
+                "category": category,
+                "status": assetInfo.status,
+                "createdByEmployee": assetInfo.createdByEmployee,
+                "updatedByEmployee": JSON.parse(sessionStorage.getItem("credentials")),
+            };
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
+                    window.location = "../dashboard/dashboard.html";
+                }
+            };
+            xhttp.open("PUT", `${getAPIUrl()}/asset/${assetId}`, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(asset));
+
+            e.preventDefault();
+        });
+
+        function getCategories(apiUrl) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
+                    if (this.responseText) {
+                        // handle response here
+                        categories = JSON.parse(this.responseText);
+                        categories.forEach(item => {
+                            const html =
+                                `
+                                <option value="${item.categoryId}">${item.name}</option>
+                            `;
+                            document.getElementById("categories").innerHTML += html;
+                        });
+                    } else {
+                        alert("Something went wrong retreiving the data");
+                    }
+                }
+            };
+            xhttp.open("GET", `${apiUrl}/category/list`, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send();
+        }
+
+        function getAssetInfo(apiUrl, assetId) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState > 3 && xhttp.status == 200) {
+                    if (this.responseText) {
+                        assetInfo = JSON.parse(this.responseText);
+                        document.getElementById("assetDescription").value = assetInfo.assetDescription;
+                        document.getElementById("macAddress").value = assetInfo.macAddress;
+                        document.getElementById("serialNumber").value = assetInfo.serialNumber;
+                        document.getElementById("estimatedLifespan").value = assetInfo.estimatedLifespan;
+                        document.getElementById("categories").value = assetInfo.category ? assetInfo.category.categoryId : '';
+                    } else {
+                        alert("Something went wrong retreiving the data");
+                    }
+                }
+            };
+            xhttp.open("GET", `${apiUrl}/asset/${assetId}`, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send();
+        }
+
+    </script>
+</body>
+
+</html>
